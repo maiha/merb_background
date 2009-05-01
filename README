@@ -24,6 +24,14 @@ Setup
 or
   rake slices:merb_background:migrate
 
+
+Daemon
+======
+
+  ruby slices/merb_background/script/background.rb
+
+
+
 ------------------------------------------------------------------------------
    
 

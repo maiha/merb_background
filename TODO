@@ -1,8 +1,8 @@
 TODO:
 
-- Fix MerbBackground.description and MerbBackground.version
-- Fix Rakefile with your name and contact info
-- Add your Merb rake tasks to lib/merb_background/merbtasks.rb
+- Add rake tasks especially for control daemons
+- Add BonusFeature
+- Add codes for AR
 
 Remove anything that you don't need:
 

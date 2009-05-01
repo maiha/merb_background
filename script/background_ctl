@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+require 'rubygems'
+require 'daemons'
+require 'yaml'
+require 'erb'
+require 'extlib'
+
+path = File.dirname(__FILE__) + "/../../../config/background.yml"
+hash = File.exist?(path) ? YAML.load(ERB.new(File.read(path)).result) : {}
+opts = Mash.new(hash)
+
+Daemons.run File.dirname(__FILE__) + '/background.rb', opts

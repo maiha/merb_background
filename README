@@ -1,0 +1,97 @@
+MerbBackground
+==============
+
+A slice for the Merb framework that offers background tasks for DataMapper.
+This is ported from background-fu that works with Rails + AR.
+
+Original:
+  http://github.com/ncr/background-fu/
+
+
+Methods
+=======
+
+same as background-fu.
+
+  MerbBackground::Job.enqueue!(ExampleWorker, :add, 1, 2)
+
+
+Setup
+=====
+
+  MerbBackground::Job.auto_upgrade!
+
+or
+  rake slices:merb_background:migrate
+
+------------------------------------------------------------------------------
+   
+
+To see all available tasks for MerbBackground run:
+
+rake -T slices:merb_background
+
+------------------------------------------------------------------------------
+
+Instructions for installation:
+
+file: config/init.rb
+
+# add the slice as a regular dependency
+
+dependency 'merb_background'
+
+# if needed, configure which slices to load and in which order
+
+Merb::Plugins.config[:merb_slices] = { :queue => ["MerbBackground", ...] }
+
+# optionally configure the plugins in a before_app_loads callback
+
+Merb::BootLoader.before_app_loads do
+  
+  Merb::Slices::config[:merb_background][:option] = value
+  
+end
+
+file: config/router.rb
+
+# example: /merb_background/:controller/:action/:id
+
+add_slice(:MerbBackground)
+
+# example: /:lang/:controller/:action/:id
+
+add_slice(:MerbBackground, :path => ':lang')
+
+# example: /:controller/:action/:id
+
+slice(:MerbBackground)
+
+Normally you should also run the following rake task:
+
+rake slices:merb_background:install
+
+------------------------------------------------------------------------------
+
+You can put your application-level overrides in:
+
+host-app/slices/merb_background/app - controllers, models, views ...
+
+Templates are located in this order:
+
+1. host-app/slices/merb_background/app/views/*
+2. gems/merb_background/app/views/*
+3. host-app/app/views/*
+
+You can use the host application's layout by configuring the
+merb_background slice in a before_app_loads block:
+
+Merb::Slices.config[:merb_background] = { :layout => :application }
+
+By default :merb_background is used. If you need to override
+stylesheets or javascripts, just specify your own files in your layout
+instead/in addition to the ones supplied (if any) in 
+host-app/public/slices/merb_background.
+
+In any case don't edit those files directly as they may be clobbered any time
+rake merb_background:install is run.
